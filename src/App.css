@@ -1,24 +1,41 @@
 .main {
-  height: 100vh;
-  padding: 10px; 
+    height: 100vh;
+    padding: 10px;
+}
+
+.home {
+    background: whitesmoke;
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
 }
 
 nav {
-  justify-content: space-around;
-  display: flex;
-  align-items: center;
-  min-height: 6vh;
-  background-color: teal;
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    min-height: 6vh;
+    background-color: teal;
+}
+
+.footerCustom {
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    justify-content: center;
+    padding: 10px;
+    height: 40px;
+    border-radius: 0.3em;
+    background-color: rgba(255, 255, 255, 0.952);
 }
 
 .nav-header {
-  font-size: large;
-  font-weight: bold;
-  color: black;
+    font-size: 150%;
+    font-weight: bold;
+    color: black;
 }
-
 
 .nav-link {
-  color: black;
+    color: black;
 }
-
