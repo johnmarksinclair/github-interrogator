@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
-import "react-bulma-components/dist/react-bulma-components.min.css";
+import testCall from "../api/testAPI";
 
 function User() {
     const [input, setInput] = useState("");
@@ -23,6 +23,7 @@ function User() {
         const data = await fetch(`https://api.github.com/users/${input}`);
         const dataJSON = await data.json();
         setInfo(dataJSON);
+        testCall(input);
         //this.userInput.value = "";
     };
 

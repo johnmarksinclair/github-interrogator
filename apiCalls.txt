@@ -1,0 +1,4 @@
+https://api.github.com/users/johnmarksinclair/repos - returns all repos for a specified user
+
+https://api.github.com/repos/johnmarksinclair/College/languages - returns the languages used in a specified repo
+

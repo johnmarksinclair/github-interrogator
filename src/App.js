@@ -1,5 +1,4 @@
 import "./App.css";
-import "react-bulma-components/dist/react-bulma-components.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Nav from "./components/Nav.js";
 import User from "./pages/User.js";
