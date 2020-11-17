@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
-import testCall from "../api/testAPI";
+import api from "../api/githubAPI";
 
 function User() {
     const [input, setInput] = useState("");
@@ -20,12 +20,9 @@ function User() {
     };
 
     const handleSearch = async () => {
-        const data = await fetch(`https://api.github.com/users/${input}`);
-        const dataJSON = await data.json();
-        setInfo(dataJSON);
-        const ret = await testCall(input);
-        console.log(ret);
-        //this.userInput.value = "";
+        const ret = await api(input);
+        setInfo(ret);
+        //console.log(ret);
     };
 
     const checkIfEnter = (e) => {
