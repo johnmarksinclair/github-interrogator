@@ -10,7 +10,7 @@ function User() {
         fetch(`https://api.github.com/users/johnmarksinclair`).then((res) =>
             res.json().then((data) => {
                 setInfo(data);
-                console.log(data);
+                //console.log(data);
             })
         );
     }, []);
@@ -23,7 +23,8 @@ function User() {
         const data = await fetch(`https://api.github.com/users/${input}`);
         const dataJSON = await data.json();
         setInfo(dataJSON);
-        testCall(input);
+        const ret = await testCall(input);
+        console.log(ret);
         //this.userInput.value = "";
     };
 
