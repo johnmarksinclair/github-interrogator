@@ -1,7 +1,14 @@
 GET https://api.github.com/users/johnmarksinclair/repos
 // returns all repos for a specified user
 ###
-GET https://api.github.com/repos/microsoft/Git-Credential-Manager-Core/languages
+GET https://api.github.com/users/johnmarksinclair/followers
+// returns list of users followers
+###
+###
+###
+###
+###
+GET https://api.github.com/repos/johnmarksinclair/college/languages
 // returns the languages used in a specified repo
 ###
 GET https://api.github.com/users/johnmarksinclair

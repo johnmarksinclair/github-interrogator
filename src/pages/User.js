@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
-import api from "../api/githubAPI";
+import getProfileInfo from "../api/profileCall";
+import getLangs from "../api/languageCall";
+import getFollowers from "../api/followersCall";
 
 function User() {
     const [input, setInput] = useState("");
     const [info, setInfo] = useState({});
+    const [languages, setLangs] = useState({});
+    const [followers, setFollowers] = useState({});
 
     useEffect(() => {
-        fetch(`https://api.github.com/users/johnmarksinclair`).then((res) =>
-            res.json().then((data) => {
-                setInfo(data);
-                //console.log(data);
-            })
-        );
+        async function getData() {
+            var profInfo = await getProfileInfo("johnmarksinclair");
+            setInfo(profInfo);
+            var langInfo = await getLangs("johnmarksinclair");
+            setLangs(langInfo);
+            var followersInfo = await getFollowers("johnmarksinclair");
+            setFollowers(followersInfo);
+            console.log(followersInfo[0].login);
+        }
+        getData();
     }, []);
 
     const handleInput = (e) => {
@@ -20,9 +28,13 @@ function User() {
     };
 
     const handleSearch = async () => {
-        const ret = await api(input);
-        setInfo(ret);
-        //console.log(ret);
+        const profInfo = await getProfileInfo(input);
+        setInfo(profInfo);
+        const langInfo = await getLangs(input);
+        setLangs(langInfo);
+        const followersInfo = await getFollowers(input);
+        setFollowers(followersInfo);
+        console.log(followersInfo[0].login);
     };
 
     const checkIfEnter = (e) => {
@@ -99,18 +111,50 @@ function User() {
                 </div>
                 <div class="tile is-parent">
                     <div class="tile is-child box">
-                        <p class="title">Three</p>
-                        <p>Lorem</p>
-                        <p>Suspendisse</p>
-                        <p>Integer</p>
+                        <p class="title">Language Usage</p>
+                        <p>
+                            {languages.HTML != null
+                                ? "HTML: " + languages.HTML
+                                : null}
+                        </p>
+                        <p>
+                            {languages.JavaScript != null
+                                ? "JavaScript: " + languages.JavaScript
+                                : null}
+                        </p>
+                        <p>
+                            {languages.Python != null
+                                ? "Python: " + languages.Python
+                                : null}
+                        </p>
+                        <p>
+                            {languages.Solidity != null
+                                ? "Solidity: " + languages.Solidity
+                                : null}
+                        </p>
+                        <p>
+                            {languages.Dart != null
+                                ? "Dart: " + languages.Dart
+                                : null}
+                        </p>
+                        <p>
+                            {languages.CSS != null
+                                ? "CSS: " + languages.CSS
+                                : null}
+                        </p>
+                        <p>
+                            {languages.Java != null
+                                ? "Java: " + languages.Java
+                                : null}
+                        </p>
+                        <p>
+                            {languages.C != null ? "C: " + languages.C : null}
+                        </p>
                     </div>
                 </div>
                 <div class="tile is-parent">
                     <div class="tile is-child box">
-                        <p class="title">Four</p>
-                        <p>Lorem</p>
-                        <p>Suspendisse</p>
-                        <p>Integer</p>
+                        <p class="title">Followers</p>
                     </div>
                 </div>
             </div>
