@@ -20,6 +20,7 @@ function User() {
 
     async function getData() {
         setInfo(await getProfileInfo(input));
+        //todo display friends not followers
         setFollowers(await getFollowers(input));
         setRepos(await getRepos(input));
         setLangs(await getLangs(input, repo));
@@ -29,8 +30,12 @@ function User() {
         setInput(e.target.value);
     };
 
+    //todo error handling
     const handleSearch = async () => {
-        getData();
+        if (input != "") {
+            setRepo("");
+            getData();
+        }
     };
 
     const checkIfEnter = (pressedKey) => {
@@ -39,10 +44,12 @@ function User() {
         }
     };
 
+    //todo make pick first repo as default for lang showcase
+
     return (
         <div className="user-div">
             <div class="tile is-ancestor">
-                <div class="tile is-2 is-vertical is-parent">
+                <div class="tile is-3 is-vertical is-parent">
                     <div class="tile is-12 is-child box">
                         <div class="columns">
                             <div class="column is-three-fifths">
@@ -104,10 +111,26 @@ function User() {
                             </div>
                         </div>
                     </div>
+                    <div class="tile is-child box">
+                        <p class="title">Followers</p>
+                        <div>
+                            {followers.map((follower) => (
+                                <button
+                                    className="button is-small"
+                                    onClick={() => {
+                                        setInput(follower.login);
+                                        handleSearch();
+                                    }}
+                                >
+                                    {follower.login}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
                 <div className="tile is-3 is-parent is-vertical">
-                    <div class="tile is-child box">
+                    {/* <div class="tile is-child box">
                         <p class="title">Followers</p>
                         <div>
                             {followers.map((follower) => (
@@ -124,9 +147,9 @@ function User() {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                     <div class="tile is-child box">
-                        <p class="title">Repositorys</p>
+                        <p class="title">Repositories</p>
                         <div>
                             {repos.map((x) => (
                                 <div key={x.name}>
