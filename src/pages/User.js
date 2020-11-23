@@ -7,7 +7,7 @@ import getRepos from "../api/repoCall";
 
 function User() {
     const [input, setInput] = useState("johnmarksinclair");
-    const [repo] = useState("College");
+    const [repo, setRepo] = useState("College");
 
     const [info, setInfo] = useState({});
     const [languages, setLangs] = useState([]);
@@ -33,8 +33,8 @@ function User() {
         getData();
     };
 
-    const checkIfEnter = (e) => {
-        if (e.key === "Enter") {
+    const checkIfEnter = (pressedKey) => {
+        if (pressedKey.key === "Enter") {
             handleSearch();
         }
     };
@@ -111,9 +111,17 @@ function User() {
                         <p class="title">Followers</p>
                         <div>
                             {followers.map((follower) => (
-                                <button className="button">
-                                    {follower.login}
-                                </button>
+                                <div>
+                                    <button
+                                        className="button is-small"
+                                        onClick={() => {
+                                            setInput(follower.login);
+                                            handleSearch();
+                                        }}
+                                    >
+                                        {follower.login}
+                                    </button>
+                                </div>
                             ))}
                         </div>
                     </div>
@@ -121,8 +129,14 @@ function User() {
                         <p class="title">Repositorys</p>
                         <div>
                             {repos.map((x) => (
-                                <div>
-                                    <button className="list-button">
+                                <div key={x.name}>
+                                    <button
+                                        className="list-button"
+                                        onClick={() => {
+                                            setRepo(x.name);
+                                            getData();
+                                        }}
+                                    >
                                         {x.name}
                                     </button>
                                 </div>
@@ -136,7 +150,7 @@ function User() {
                         <p class="title">Language Usage - {repo}</p>
                         <div>
                             {languages.map((language) => (
-                                <div>
+                                <div key={language}>
                                     <button className="list-button">
                                         {language}
                                     </button>

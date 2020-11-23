@@ -9,6 +9,8 @@ async function getLangs(username, repoName) {
         arr.push([i, dataJSON[i]]);
     }
     //console.log(arr);
+    var chartArray = [];
+
     return arr;
 }
 
