@@ -3,38 +3,34 @@ import "../App.css";
 import getProfileInfo from "../api/profileCall";
 import getLangs from "../api/languageCall";
 import getFollowers from "../api/followersCall";
+import getRepos from "../api/repoCall";
 
 function User() {
-    const [input, setInput] = useState("");
+    const [input, setInput] = useState("johnmarksinclair");
+    const [repo, setRepo] = useState("college");
+
     const [info, setInfo] = useState({});
     const [languages, setLangs] = useState({});
-    const [followers, setFollowers] = useState({});
+    const [followers, setFollowers] = useState([]);
+    const [repos, setRepos] = useState([]);
 
     useEffect(() => {
-        async function getData() {
-            var profInfo = await getProfileInfo("johnmarksinclair");
-            setInfo(profInfo);
-            var langInfo = await getLangs("johnmarksinclair");
-            setLangs(langInfo);
-            var followersInfo = await getFollowers("johnmarksinclair");
-            setFollowers(followersInfo);
-            console.log(followersInfo[0].login);
-        }
         getData();
     }, []);
+
+    async function getData() {
+        setInfo(await getProfileInfo(input));
+        setFollowers(await getFollowers(input));
+        setRepos(await getRepos(input));
+        setLangs(await getLangs(input, repo));
+    }
 
     const handleInput = (e) => {
         setInput(e.target.value);
     };
 
     const handleSearch = async () => {
-        const profInfo = await getProfileInfo(input);
-        setInfo(profInfo);
-        const langInfo = await getLangs(input);
-        setLangs(langInfo);
-        const followersInfo = await getFollowers(input);
-        setFollowers(followersInfo);
-        console.log(followersInfo[0].login);
+        getData();
     };
 
     const checkIfEnter = (e) => {
@@ -46,7 +42,7 @@ function User() {
     return (
         <div className="user-div">
             <div class="tile is-ancestor">
-                <div class="tile is-3 is-vertical is-parent">
+                <div class="tile is-2 is-vertical is-parent">
                     <div class="tile is-12 is-child box">
                         <div class="columns">
                             <div class="column is-three-fifths">
@@ -109,53 +105,39 @@ function User() {
                         </div>
                     </div>
                 </div>
-                <div class="tile is-parent">
-                    <div class="tile is-child box">
-                        <p class="title">Language Usage</p>
-                        <p>
-                            {languages.HTML != null
-                                ? "HTML: " + languages.HTML
-                                : null}
-                        </p>
-                        <p>
-                            {languages.JavaScript != null
-                                ? "JavaScript: " + languages.JavaScript
-                                : null}
-                        </p>
-                        <p>
-                            {languages.Python != null
-                                ? "Python: " + languages.Python
-                                : null}
-                        </p>
-                        <p>
-                            {languages.Solidity != null
-                                ? "Solidity: " + languages.Solidity
-                                : null}
-                        </p>
-                        <p>
-                            {languages.Dart != null
-                                ? "Dart: " + languages.Dart
-                                : null}
-                        </p>
-                        <p>
-                            {languages.CSS != null
-                                ? "CSS: " + languages.CSS
-                                : null}
-                        </p>
-                        <p>
-                            {languages.Java != null
-                                ? "Java: " + languages.Java
-                                : null}
-                        </p>
-                        <p>
-                            {languages.C != null ? "C: " + languages.C : null}
-                        </p>
-                    </div>
-                </div>
-                <div class="tile is-parent">
+
+                <div className="tile is-3 is-parent is-vertical">
                     <div class="tile is-child box">
                         <p class="title">Followers</p>
+                        <div>
+                            {followers.map((follower) => (
+                                <button className="button">
+                                    {follower.login}
+                                </button>
+                            ))}
+                        </div>
                     </div>
+                    <div class="tile is-child box">
+                        <p class="title">Repositorys</p>
+                        <div>
+                            {repos.map((e) => (
+                                <div>
+                                    <button className="list-button">
+                                        {e.name}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="tile is-parent is-vertical">
+                    <div className="tile is-child box">
+                        <p class="title">Language Usage</p>
+                        <p>Select a repository to view language stats</p>
+                        <div>{JSON.stringify(languages)}</div>
+                    </div>
+                    <div className="tile is-child box"></div>
                 </div>
             </div>
         </div>
