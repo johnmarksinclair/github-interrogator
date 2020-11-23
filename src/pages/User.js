@@ -7,10 +7,10 @@ import getRepos from "../api/repoCall";
 
 function User() {
     const [input, setInput] = useState("johnmarksinclair");
-    const [repo, setRepo] = useState("college");
+    const [repo] = useState("College");
 
     const [info, setInfo] = useState({});
-    const [languages, setLangs] = useState({});
+    const [languages, setLangs] = useState([]);
     const [followers, setFollowers] = useState([]);
     const [repos, setRepos] = useState([]);
 
@@ -120,10 +120,10 @@ function User() {
                     <div class="tile is-child box">
                         <p class="title">Repositorys</p>
                         <div>
-                            {repos.map((e) => (
+                            {repos.map((x) => (
                                 <div>
                                     <button className="list-button">
-                                        {e.name}
+                                        {x.name}
                                     </button>
                                 </div>
                             ))}
@@ -133,9 +133,16 @@ function User() {
 
                 <div className="tile is-parent is-vertical">
                     <div className="tile is-child box">
-                        <p class="title">Language Usage</p>
-                        <p>Select a repository to view language stats</p>
-                        <div>{JSON.stringify(languages)}</div>
+                        <p class="title">Language Usage - {repo}</p>
+                        <div>
+                            {languages.map((language) => (
+                                <div>
+                                    <button className="list-button">
+                                        {language}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <div className="tile is-child box"></div>
                 </div>
