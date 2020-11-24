@@ -1,15 +1,15 @@
 async function getLangs(username, repoName) {
-    const data = await fetch(
+    const languages = await fetch(
         `https://api.github.com/repos/${username}/${repoName}/languages`
     );
-    const dataJSON = await data.json();
+    const languagesJSON = await languages.json();
+    //console.log(languagesJSON);
     // convert to array
     var arr = [];
-    for (var i in dataJSON) {
-        arr.push([i, dataJSON[i]]);
+    for (var i in languagesJSON) {
+        arr.push([i, languagesJSON[i]]);
     }
     //console.log(arr);
-    var chartArray = [];
 
     return arr;
 }

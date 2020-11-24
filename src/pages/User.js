@@ -1,39 +1,74 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
+//import api calling functions
 import getProfileInfo from "../api/profileCall";
 import getLangs from "../api/languageCall";
 import getFollowers from "../api/followersCall";
 import getRepos from "../api/repoCall";
+//import components
+import BarChart from "../components/BarChart";
+
+const dataset = [
+    [10, 30, 40, 20],
+    [10, 40, 30, 20, 50, 10],
+    [60, 30, 40, 20, 30],
+];
+var i = 0;
 
 function User() {
     const [input, setInput] = useState("johnmarksinclair");
-    const [repo, setRepo] = useState("College");
+    const [repo, setRepo] = useState("");
 
     const [info, setInfo] = useState({});
     const [languages, setLangs] = useState([]);
     const [followers, setFollowers] = useState([]);
     const [repos, setRepos] = useState([]);
 
+    const [langChartData, setLangChartData] = useState([]);
+
     useEffect(() => {
-        getData();
+        initData();
     }, []);
 
-    async function getData() {
+    async function initData() {
         setInfo(await getProfileInfo(input));
-        //todo display friends not followers
         setFollowers(await getFollowers(input));
-        setRepos(await getRepos(input));
-        setLangs(await getLangs(input, repo));
+        var returnedRepos = await getRepos(input);
+        if (returnedRepos.length > 0) {
+            setRepos(returnedRepos);
+            setRepo(returnedRepos[i].name);
+            setLangs(await getLangs(input, returnedRepos[i].name));
+        }
+        changeLangChartData();
+    }
+
+    const changeLangChartData = () => {
+        //console.log(dataset);
+        setLangChartData(dataset[i++]);
+        if (i === dataset.length) i = 0;
+    };
+
+    async function getData(repoName) {
+        setInfo(await getProfileInfo(input));
+        setFollowers(await getFollowers(input));
+        var returnedRepos = await getRepos(input);
+        setRepos(returnedRepos);
+        if (repoName != null) {
+            setRepo(repoName);
+            if (repos.length > 0) setLangs(await getLangs(input, repoName));
+        } else if (returnedRepos.length > 0) {
+            setRepo(returnedRepos[0].name);
+            setLangs(await getLangs(input, returnedRepos[0].name));
+        }
     }
 
     const handleInput = (e) => {
         setInput(e.target.value);
     };
 
-    //todo error handling
     const handleSearch = async () => {
-        if (input != "") {
-            setRepo("");
+        if (input !== "") {
+            //setRepo("");
             getData();
         }
     };
@@ -44,13 +79,11 @@ function User() {
         }
     };
 
-    //todo make pick first repo as default for lang showcase
-
     return (
         <div className="user-div">
             <div class="tile is-ancestor">
                 <div class="tile is-3 is-vertical is-parent">
-                    <div class="tile is-12 is-child box">
+                    <div class="tile is-12 is-child box" id="search-tile">
                         <div class="columns">
                             <div class="column is-three-fifths">
                                 <input
@@ -73,7 +106,7 @@ function User() {
                         </div>
                     </div>
 
-                    <div class="tile is-child box">
+                    <div class="tile is-child box" id="avatar-card-tile">
                         <div class="card">
                             <div class="card-image">
                                 <figure class="image is-4by4">
@@ -111,14 +144,15 @@ function User() {
                             </div>
                         </div>
                     </div>
-                    <div class="tile is-child box">
+
+                    <div class="tile is-child box" id="followers-tile">
                         <p class="title">Followers</p>
                         <div>
                             {followers.map((follower) => (
                                 <button
                                     className="button is-small"
                                     onClick={() => {
-                                        setInput(follower.login);
+                                        input = follower.login;
                                         handleSearch();
                                     }}
                                 >
@@ -129,35 +163,16 @@ function User() {
                     </div>
                 </div>
 
-                <div className="tile is-3 is-parent is-vertical">
-                    {/* <div class="tile is-child box">
-                        <p class="title">Followers</p>
-                        <div>
-                            {followers.map((follower) => (
-                                <div>
-                                    <button
-                                        className="button is-small"
-                                        onClick={() => {
-                                            setInput(follower.login);
-                                            handleSearch();
-                                        }}
-                                    >
-                                        {follower.login}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div> */}
+                <div className="tile is-2 is-parent is-vertical">
                     <div class="tile is-child box">
-                        <p class="title">Repositories</p>
+                        <p class="title">Repos</p>
                         <div>
                             {repos.map((x) => (
                                 <div key={x.name}>
                                     <button
                                         className="list-button"
                                         onClick={() => {
-                                            setRepo(x.name);
-                                            getData();
+                                            getData(x.name);
                                         }}
                                     >
                                         {x.name}
@@ -170,7 +185,32 @@ function User() {
 
                 <div className="tile is-parent is-vertical">
                     <div className="tile is-child box">
-                        <p class="title">Language Usage - {repo}</p>
+                        <div className="columns">
+                            <div className="column is-10">
+                                <p class="title">Language Usage</p>
+                                <p className="subtitle">Repo: {repo}</p>
+                            </div>
+                            {/* <div className="column">
+                                <button
+                                    className="button"
+                                    onClick={() => {
+                                        changeLangChartData();
+                                    }}
+                                >
+                                    Cycle Repos
+                                </button>
+                            </div> */}
+                        </div>
+                        <div className="lang-char-div" id="langChartDiv">
+                            <BarChart
+                                width={600}
+                                height={300}
+                                data={langChartData}
+                            />
+                        </div>
+                        <p>Selct another repo from the list to see its info</p>
+                    </div>
+                    <div className="tile is-child box">
                         <div>
                             {languages.map((language) => (
                                 <div key={language}>
@@ -181,7 +221,6 @@ function User() {
                             ))}
                         </div>
                     </div>
-                    <div className="tile is-child box"></div>
                 </div>
             </div>
         </div>

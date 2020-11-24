@@ -1,10 +1,10 @@
 .main {
     height: 100vh;
     padding: 10px;
+    background-color: whitesmoke;
 }
 
 .home {
-    background: whitesmoke;
     justify-content: space-around;
     display: flex;
     align-items: center;
@@ -16,7 +16,6 @@ nav {
     display: flex;
     align-items: center;
     min-height: 6vh;
-    background-color: teal;
 }
 
 .footerCustom {
@@ -44,4 +43,11 @@ nav {
     border: none;
     padding: 0;
     background: none;
+}
+
+.lang-char-div {
+    display: flex;
+    justify-content: space-around;
+    height: 100;
+    padding: 10px;
 }

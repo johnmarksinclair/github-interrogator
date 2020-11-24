@@ -6,7 +6,6 @@ import Footer from "./components/Footer.js";
 
 function App() {
     document.title = "Interrogator";
-    //document.body.style = "background: lightblue;";
 
     return (
         <Router>

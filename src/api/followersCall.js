@@ -1,8 +1,18 @@
 async function getFollowers(input) {
-    const data = await fetch(`https://api.github.com/users/${input}/followers`);
-    const dataJSON = await data.json();
-    //console.log(dataJSON);
-    return dataJSON;
+    const followers = await fetch(
+        `https://api.github.com/users/${input}/followers`
+    );
+    const follwersJSON = await followers.json();
+    // console.log(follwersJSON);
+    // const following = await fetch(
+    //     `https://api.github.com/users/${input}/following`
+    // );
+    // const followingJSON = await following.json();
+    // console.log(followingJSON);
+
+    return follwersJSON;
 }
 
 export default getFollowers;
+
+//todo create two way link between friends, differeing colours
