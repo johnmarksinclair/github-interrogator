@@ -16,7 +16,7 @@ const dataset = [
 var i = 0;
 
 function User() {
-    const [input, setInput] = useState("johnmarksinclair");
+    var [input, setInput] = useState("johnmarksinclair");
     const [repo, setRepo] = useState("");
 
     const [info, setInfo] = useState({});
@@ -28,6 +28,7 @@ function User() {
 
     useEffect(() => {
         initData();
+        changeLangChartData();
     }, []);
 
     async function initData() {
@@ -36,10 +37,26 @@ function User() {
         var returnedRepos = await getRepos(input);
         if (returnedRepos.length > 0) {
             setRepos(returnedRepos);
-            setRepo(returnedRepos[i].name);
-            setLangs(await getLangs(input, returnedRepos[i].name));
+            setRepo(returnedRepos[0].name);
+            setLangs(await getLangs(input, returnedRepos[0].name));
         }
-        changeLangChartData();
+    }
+
+    async function getData() {
+        setInput(input);
+        setInfo(await getProfileInfo(input));
+        setFollowers(await getFollowers(input));
+        var returnedRepos = await getRepos(input);
+        setRepos(returnedRepos);
+        setRepo(returnedRepos[0].name);
+        setLangs(await getLangs(input, returnedRepos[0].name));
+    }
+
+    async function updateDisplayedRepoData(repoName) {
+        if (repoName) {
+            setRepo(repoName);
+            if (repos.length > 0) setLangs(await getLangs(input, repoName));
+        }
     }
 
     const changeLangChartData = () => {
@@ -48,27 +65,12 @@ function User() {
         if (i === dataset.length) i = 0;
     };
 
-    async function getData(repoName) {
-        setInfo(await getProfileInfo(input));
-        setFollowers(await getFollowers(input));
-        var returnedRepos = await getRepos(input);
-        setRepos(returnedRepos);
-        if (repoName != null) {
-            setRepo(repoName);
-            if (repos.length > 0) setLangs(await getLangs(input, repoName));
-        } else if (returnedRepos.length > 0) {
-            setRepo(returnedRepos[0].name);
-            setLangs(await getLangs(input, returnedRepos[0].name));
-        }
-    }
-
     const handleInput = (e) => {
         setInput(e.target.value);
     };
 
     const handleSearch = async () => {
         if (input !== "") {
-            //setRepo("");
             getData();
         }
     };
@@ -153,7 +155,7 @@ function User() {
                                     className="button is-small"
                                     onClick={() => {
                                         input = follower.login;
-                                        handleSearch();
+                                        getData();
                                     }}
                                 >
                                     {follower.login}
@@ -164,7 +166,7 @@ function User() {
                 </div>
 
                 <div className="tile is-2 is-parent is-vertical">
-                    <div class="tile is-child box">
+                    <div class="tile is-child box" id="repos-tile">
                         <p class="title">Repos</p>
                         <div>
                             {repos.map((x) => (
@@ -172,7 +174,7 @@ function User() {
                                     <button
                                         className="list-button"
                                         onClick={() => {
-                                            getData(x.name);
+                                            updateDisplayedRepoData(x.name);
                                         }}
                                     >
                                         {x.name}
@@ -181,10 +183,11 @@ function User() {
                             ))}
                         </div>
                     </div>
+                    <div className="tile is-child box"></div>
                 </div>
 
                 <div className="tile is-parent is-vertical">
-                    <div className="tile is-child box">
+                    <div className="tile is-child box" id="lang-bar-chart-tile">
                         <div className="columns">
                             <div className="column is-10">
                                 <p class="title">Language Usage</p>
