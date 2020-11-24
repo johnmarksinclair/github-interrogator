@@ -23,12 +23,12 @@ function App() {
 
 function Home() {
     return (
-        <div class="home">
-            <section class="hero is-medium">
-                <div class="hero-body">
-                    <div class="container">
-                        <h1 class="title">GitHub Interrogator</h1>
-                        <h2 class="subtitle">
+        <div className="home">
+            <section className="hero is-medium">
+                <div className="hero-body">
+                    <div className="container">
+                        <h1 className="title">GitHub Interrogator</h1>
+                        <h2 className="subtitle">
                             Interrogate the GitHub API to build visualisation of
                             data available that elucidates some aspect of the
                             softare engineering process, such as a social graph
@@ -37,7 +37,9 @@ function Home() {
                             visualisation of this using the d3js library.
                         </h2>
                         <Link className="nav-link" to="/user">
-                            <button class="button">Begin Interrogation</button>
+                            <button className="button">
+                                Begin Interrogation
+                            </button>
                         </Link>
                     </div>
                 </div>

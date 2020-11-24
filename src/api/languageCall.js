@@ -3,15 +3,23 @@ async function getLangs(username, repoName) {
         `https://api.github.com/repos/${username}/${repoName}/languages`
     );
     const languagesJSON = await languages.json();
-    //console.log(languagesJSON);
-    // convert to array
-    var arr = [];
-    for (var i in languagesJSON) {
-        arr.push([i, languagesJSON[i]]);
-    }
-    //console.log(arr);
-
-    return arr;
+    var langArr = [];
+    var valueArr = [];
+    Object.keys(languagesJSON).forEach(function (key) {
+        var lang = {
+            language: key,
+            value: languagesJSON[key],
+        };
+        langArr.push(lang);
+        valueArr.push(languagesJSON[key]);
+        //console.log(key);
+        //console.log(languagesJSON[key]);
+    });
+    console.log(languages);
+    console.log(languagesJSON);
+    console.log(langArr);
+    console.log(valueArr);
+    return langArr;
 }
 
 export default getLangs;

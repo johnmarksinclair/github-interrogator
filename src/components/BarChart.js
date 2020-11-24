@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { max } from "d3";
 import React, { useRef, useEffect } from "react";
 
 function BarChart({ width, height, data }) {
@@ -24,12 +25,6 @@ function BarChart({ width, height, data }) {
             .range([0, height - 100]);
 
         selection
-            .transition()
-            .duration(300)
-            .attr("height", (d) => yScale(d))
-            .attr("y", (d) => height - yScale(d));
-
-        selection
             .enter()
             .append("rect")
             .attr("x", (d, i) => i * 45)
@@ -41,14 +36,6 @@ function BarChart({ width, height, data }) {
             .duration(300)
             .attr("height", (d) => yScale(d))
             .attr("y", (d) => height - yScale(d));
-
-        selection
-            .exit()
-            .transition()
-            .duration(300)
-            .attr("y", (d) => height)
-            .attr("height", 0)
-            .remove();
     };
 
     return (
