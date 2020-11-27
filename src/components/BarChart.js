@@ -9,11 +9,12 @@ function BarChart({ data }) {
     }, [data]);
 
     const draw = () => {
+        // remove current chart
         d3.selectAll("svg > *").remove();
         // init variables
         let barWidth = 60;
         let labelHeight = 5;
-        let svgWidth = 800;
+        let svgWidth = 1000;
         let svgHeight = 600;
         //let margin = { top: 20, right: 20, bottom: 30, left: 40 };
         let margin = { top: 20, right: 20, bottom: 30, left: 50 };
@@ -45,8 +46,8 @@ function BarChart({ data }) {
         ]);
 
         let svg = d3.select(ref.current).append("svg");
-
-        svg.attr("height", height).attr("width", width);
+        svg.attr("viewBox", [0, 0, width, height]);
+        //svg.attr("height", height).attr("width", width);
 
         svg = svg
             .append("g")
