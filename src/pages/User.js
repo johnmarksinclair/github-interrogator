@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
 //import api calling functions
-import getProfileInfo from "../api/profileCall";
-import getLangs from "../api/languageCall";
-import getFollowers from "../api/followersCall";
-import getRepos from "../api/repoCall";
+import getProfileInfoCall from "../api/profileCall";
+import getFollowersCall from "../api/followersCall";
+import getReposCall from "../api/repoCall";
+import getLangsCall from "../api/languageCall";
 //import components
 import BarChart from "../components/BarChart";
-
-const dataset = [[10, 30, 40, 20]];
-// const dataset = [
-//     { language: "python", value: 20 },
-//     { language: "java", value: 40 },
-//     { language: "c", value: "25" },
-// ];
-//todo ^^ this is what my data currently looks like
 
 function User() {
     var [input, setInput] = useState("johnmarksinclair");
@@ -25,47 +17,51 @@ function User() {
     const [followers, setFollowers] = useState([]);
     const [repos, setRepos] = useState([]);
 
-    const [langChartData, setLangChartData] = useState([]);
+    // const [langChartData, setLangChartData] = useState([]);
 
     useEffect(() => {
         initData();
     }, []);
 
     async function initData() {
-        setInfo(await getProfileInfo(input));
-        setFollowers(await getFollowers(input));
-        var returnedRepos = await getRepos(input);
+        setInfo(await getProfileInfoCall(input));
+        setFollowers(await getFollowersCall(input));
+        var returnedRepos = await getReposCall(input);
         if (returnedRepos.length > 0) {
             setRepos(returnedRepos);
             setRepo(returnedRepos[0].name);
-            setLangs(await getLangs(input, returnedRepos[0].name));
-            console.log(dataset);
+            var langData = await getLangsCall(input, returnedRepos[0].name);
+            setLangs(langData);
         }
-        updateLangData(dataset[0]);
+        // updateLangData(langData);
     }
 
     async function getData() {
         setInput(input);
-        setInfo(await getProfileInfo(input));
-        setFollowers(await getFollowers(input));
-        var returnedRepos = await getRepos(input);
+        setInfo(await getProfileInfoCall(input));
+        setFollowers(await getFollowersCall(input));
+        var returnedRepos = await getReposCall(input);
         setRepos(returnedRepos);
         setRepo(returnedRepos[0].name);
-        setLangs(await getLangs(input, returnedRepos[0].name));
-        updateLangData(dataset[0]);
+        var langData = await getLangsCall(input, returnedRepos[0].name);
+        setLangs(langData);
+        // updateLangData(langData);
     }
 
     async function updateDisplayedRepoData(repoName) {
         if (repoName) {
             setRepo(repoName);
-            if (repos.length > 0) setLangs(await getLangs(input, repoName));
+            if (repos.length > 0) {
+                var langData = await getLangsCall(input, repoName);
+                setLangs(langData);
+                //updateLangData(langData);
+            }
         }
-        updateLangData(dataset[0]);
     }
 
-    const updateLangData = (data) => {
-        setLangChartData(data);
-    };
+    // const updateLangData = (data) => {
+    //     setLangChartData(data);
+    // };
 
     const handleInput = (e) => {
         setInput(e.target.value);
@@ -195,28 +191,11 @@ function User() {
                         <p className="title">Language Usage</p>
                         <p className="subtitle">Repo: {repo}</p>
                         <div className="lang-char-div" id="langChartDiv">
-                            <BarChart
-                                width={600}
-                                height={300}
-                                data={langChartData}
-                            />
+                            <BarChart data={languages} />
                         </div>
-                        <p>Selct another repo from the list to see its info</p>
+                        <p>Select another repo from the list to see its info</p>
                     </div>
-                    <div className="tile is-child box">
-                        <div>
-                            {/* <div className="column">
-                                <button
-                                    className="button"
-                                    onClick={() => {
-                                        changeLangChartData();
-                                    }}
-                                >
-                                    Cycle Repos
-                                </button>
-                            </div> */}
-                        </div>
-                    </div>
+                    <div className="tile is-child box"></div>
                 </div>
             </div>
         </div>
