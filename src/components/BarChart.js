@@ -46,7 +46,7 @@ function BarChart({ data }) {
         ]);
 
         let svg = d3.select(ref.current).append("svg");
-        svg.attr("viewBox", [0, 0, width, height]);
+        svg.attr("viewBox", [0, 0, svgWidth, svgHeight]);
         //svg.attr("height", height).attr("width", width);
 
         svg = svg
@@ -71,7 +71,7 @@ function BarChart({ data }) {
 
         bars.append("rect")
             .attr("class", "bar")
-            .attr("x", function (d, i) {
+            .attr("x", function (d) {
                 return x(d);
             })
             .attr("y", function (d) {
