@@ -189,7 +189,9 @@ function User() {
                 <div className="tile is-parent is-vertical">
                     <div className="tile is-child box" id="lang-bar-chart-tile">
                         <p className="title">Language Usage</p>
-                        <p className="subtitle">Repo: {repo}</p>
+                        <p className="subtitle">
+                            Repo: {repo} - Values in lines of code
+                        </p>
                         <div className="lang-char-div">
                             <ShiteBarChart data={languages} />
                         </div>

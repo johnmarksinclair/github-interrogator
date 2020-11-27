@@ -14,7 +14,7 @@ function BarChart({ data }) {
         d3.selectAll("svg > *").remove();
         // init variables
         let barWidth = 60;
-        let labelHeight = 5;
+        let spacer = 5;
         let svgWidth = 800;
         let svgHeight = 400;
         //let margin = { top: 20, right: 20, bottom: 30, left: 40 };
@@ -31,13 +31,18 @@ function BarChart({ data }) {
                 sourceValues.push(data[key]);
             }
         }
-        console.log(sourceNames);
-        console.log(sourceValues);
+        //console.log(sourceNames);
+        //console.log(sourceValues);
+        let spacerArr = [];
+        for (var i = 0; i < sourceNames.length; i++) {
+            if (i == sourceNames.length - 1) spacerArr.push(0);
+            else spacerArr.push(spacer);
+        }
 
         // init axes
         let x = d3
             .scaleBand()
-            .rangeRound([0, (barWidth + 5) * sourceNames.length]);
+            .rangeRound([0, (barWidth + spacer) * sourceNames.length]);
         let y = d3.scaleLinear().rangeRound([height, 0]);
 
         x.domain(sourceNames);
@@ -64,9 +69,9 @@ function BarChart({ data }) {
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
 
-        svg.append("g")
-            .attr("class", "axis axis--y")
-            .call(d3.axisLeft(y).ticks(5));
+        // svg.append("g")
+        //     .attr("class", "axis axis--y")
+        //     .call(d3.axisLeft(y).ticks(5));
 
         // Create rectangles
         let bars = svg.selectAll(".bar").data(sourceNames).enter().append("g");
@@ -85,9 +90,7 @@ function BarChart({ data }) {
             .attr("fill", "lightblue")
             .transition()
             .duration(600)
-            .attr("height", function (d) {
-                return height - y(data[d]);
-            });
+            .attr("height", (d) => height - y(data[d]));
 
         bars.append("text")
             .text(function (d) {
@@ -97,7 +100,7 @@ function BarChart({ data }) {
                 return x(d) + barWidth / 2;
             })
             .attr("y", function (d) {
-                return y(data[d]) - labelHeight;
+                return y(data[d]) - spacer;
             })
             .attr("font-family", "Courier New")
             .attr("font-size", "14px")

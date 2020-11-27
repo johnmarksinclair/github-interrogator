@@ -13,8 +13,8 @@ async function getLangs(username, repoName) {
     //     //console.log(key);
     //     //console.log(languagesJSON[key]);
     // });
-    console.log(languages);
-    console.log(languagesJSON);
+    //console.log(languages);
+    //console.log(languagesJSON);
     //console.log(langArr);
 
     return languagesJSON;
