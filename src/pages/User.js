@@ -6,7 +6,7 @@ import getFollowersCall from "../api/followersCall";
 import getReposCall from "../api/repoCall";
 import getLangsCall from "../api/languageCall";
 //import components
-import BarChart from "../components/BarChart";
+import ShiteBarChart from "../components/BarChart";
 
 function User() {
     var [input, setInput] = useState("johnmarksinclair");
@@ -190,8 +190,8 @@ function User() {
                     <div className="tile is-child box" id="lang-bar-chart-tile">
                         <p className="title">Language Usage</p>
                         <p className="subtitle">Repo: {repo}</p>
-                        <div className="lang-char-div" id="langChartDiv">
-                            <BarChart data={languages} />
+                        <div className="lang-char-div">
+                            <ShiteBarChart data={languages} />
                         </div>
                         <p>Select another repo from the list to see its info</p>
                     </div>
