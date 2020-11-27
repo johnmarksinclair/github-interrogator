@@ -51,3 +51,9 @@ nav {
     height: 700px;
     width: 1000px;
 } */
+
+.chart {
+    background-color: lightyellow;
+    padding: 10px;
+    align-content: center;
+}
