@@ -5,8 +5,10 @@ import getProfileInfoCall from "../api/profileCall";
 import getFollowersCall from "../api/followersCall";
 import getReposCall from "../api/repoCall";
 import getLangsCall from "../api/languageCall";
+import getEventsCall from "../api/eventsCall";
 //import components
-import ShiteBarChart from "../components/BarChart";
+import BarChart from "../components/BarChart";
+import LineChart from "../components/LineChart";
 
 function User() {
     var [input, setInput] = useState("johnmarksinclair");
@@ -16,14 +18,14 @@ function User() {
     const [languages, setLangs] = useState([]);
     const [followers, setFollowers] = useState([]);
     const [repos, setRepos] = useState([]);
-
-    // const [langChartData, setLangChartData] = useState([]);
+    const [events, setEvents] = useState([]);
 
     useEffect(() => {
         initData();
     }, []);
 
     async function initData() {
+        setInput(input);
         setInfo(await getProfileInfoCall(input));
         setFollowers(await getFollowersCall(input));
         var returnedRepos = await getReposCall(input);
@@ -33,19 +35,8 @@ function User() {
             var langData = await getLangsCall(input, returnedRepos[0].name);
             setLangs(langData);
         }
-        // updateLangData(langData);
-    }
-
-    async function getData() {
-        setInput(input);
-        setInfo(await getProfileInfoCall(input));
-        setFollowers(await getFollowersCall(input));
-        var returnedRepos = await getReposCall(input);
-        setRepos(returnedRepos);
-        setRepo(returnedRepos[0].name);
-        var langData = await getLangsCall(input, returnedRepos[0].name);
-        setLangs(langData);
-        // updateLangData(langData);
+        let eventsRes = await getEventsCall(input);
+        setEvents(eventsRes);
     }
 
     async function updateDisplayedRepoData(repoName) {
@@ -54,14 +45,9 @@ function User() {
             if (repos.length > 0) {
                 var langData = await getLangsCall(input, repoName);
                 setLangs(langData);
-                //updateLangData(langData);
             }
         }
     }
-
-    // const updateLangData = (data) => {
-    //     setLangChartData(data);
-    // };
 
     const handleInput = (e) => {
         setInput(e.target.value);
@@ -69,7 +55,7 @@ function User() {
 
     const handleSearch = async () => {
         if (input !== "") {
-            getData();
+            initData();
         }
     };
 
@@ -155,7 +141,7 @@ function User() {
                                     className="button is-small"
                                     onClick={() => {
                                         input = follower.login;
-                                        getData();
+                                        initData();
                                     }}
                                 >
                                     {follower.login}
@@ -193,11 +179,18 @@ function User() {
                             Repo: {repo} - Values in lines of code
                         </p>
                         <div className="lang-char-div">
-                            <ShiteBarChart data={languages} />
+                            <BarChart data={languages} />
                         </div>
-                        <p>Select another repo from the list to see its info</p>
+                        <div>
+                            <p>
+                                Select another repo from the list to see its
+                                info
+                            </p>
+                        </div>
                     </div>
-                    <div className="tile is-child box"></div>
+                    <div className="tile is-child box">
+                        <LineChart data={events} />
+                    </div>
                 </div>
             </div>
         </div>

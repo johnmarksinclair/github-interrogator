@@ -4,7 +4,7 @@ GET https://api.github.com/users/johnmarksinclair/repos
 GET https://api.github.com/users/johnmarksinclair/followers
 // returns list of users followers
 ###
-GET https://api.github.com/repos/johnmarksinclair/college
+GET https://api.github.com/users/johnmarksinclair/events
 ###
 ###
 ###

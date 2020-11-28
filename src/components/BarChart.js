@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import "../App.css";
 
-function BarChart({ data }) {
+export default function BarChart({ data }) {
     const ref = useRef();
 
     useEffect(() => {
@@ -12,10 +12,13 @@ function BarChart({ data }) {
     const draw = () => {
         // remove current chart
         d3.selectAll("svg > *").remove();
+        // colour variables
+        let barColour = "lightblue";
+        let textColour = "black";
         // init variables
-        let barWidth = 60;
+        let barWidth = 80;
         let spacer = 5;
-        let svgWidth = 800;
+        let svgWidth = 1000;
         let svgHeight = 400;
         //let margin = { top: 20, right: 20, bottom: 30, left: 40 };
         let margin = { top: 20, right: 20, bottom: 30, left: 50 };
@@ -39,10 +42,12 @@ function BarChart({ data }) {
             else spacerArr.push(spacer);
         }
 
+        // let xLength =
+        //     barWidth * sourceNames.length + (sourceNames.length - 1) * spacer;
+        let xLength = (barWidth + spacer) * sourceNames.length;
+
         // init axes
-        let x = d3
-            .scaleBand()
-            .rangeRound([0, (barWidth + spacer) * sourceNames.length]);
+        let x = d3.scaleBand().rangeRound([0, xLength]);
         let y = d3.scaleLinear().rangeRound([height, 0]);
 
         x.domain(sourceNames);
@@ -87,7 +92,7 @@ function BarChart({ data }) {
             })
             .attr("width", barWidth)
             .attr("height", 0)
-            .attr("fill", "lightblue")
+            .attr("fill", barColour)
             .transition()
             .duration(600)
             .attr("height", (d) => height - y(data[d]));
@@ -102,9 +107,9 @@ function BarChart({ data }) {
             .attr("y", function (d) {
                 return y(data[d]) - spacer;
             })
-            .attr("font-family", "Courier New")
+            .attr("font-family", "sans-serif")
             .attr("font-size", "14px")
-            .attr("fill", "black")
+            .attr("fill", textColour)
             .attr("text-anchor", "middle");
     };
 
@@ -114,5 +119,3 @@ function BarChart({ data }) {
         </div>
     );
 }
-
-export default BarChart;
