@@ -21,22 +21,28 @@ function User() {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        initData();
+        getData();
     }, []);
 
-    async function initData() {
+    async function getData() {
         setInput(input);
-        setInfo(await getProfileInfoCall(input));
-        setFollowers(await getFollowersCall(input));
-        var returnedRepos = await getReposCall(input);
-        if (returnedRepos.length > 0) {
-            setRepos(returnedRepos);
-            setRepo(returnedRepos[0].name);
-            var langData = await getLangsCall(input, returnedRepos[0].name);
-            setLangs(langData);
+        let userData = await getProfileInfoCall(input);
+        if (userData.message) {
+            alert("User not found");
+        } else {
+            console.log(userData);
+            setInfo(userData);
+            setFollowers(await getFollowersCall(input));
+            let returnedRepos = await getReposCall(input);
+            if (returnedRepos.length > 0) {
+                setRepos(returnedRepos);
+                setRepo(returnedRepos[0].name);
+                let langData = await getLangsCall(input, returnedRepos[0].name);
+                setLangs(langData);
+            }
+            let eventsRes = await getEventsCall(input);
+            setEvents(eventsRes);
         }
-        let eventsRes = await getEventsCall(input);
-        setEvents(eventsRes);
     }
 
     async function updateDisplayedRepoData(repoName) {
@@ -55,7 +61,7 @@ function User() {
 
     const handleSearch = async () => {
         if (input !== "") {
-            initData();
+            getData();
         }
     };
 
@@ -141,7 +147,7 @@ function User() {
                                     className="button is-small"
                                     onClick={() => {
                                         input = follower.login;
-                                        initData();
+                                        getData();
                                     }}
                                 >
                                     {follower.login}

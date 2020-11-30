@@ -18,11 +18,11 @@ export default function LineChart({ data }) {
         let dates = [];
         let values = [];
 
-        console.log(data);
+        // console.log(data);
 
-        for (let key in data) {
-            console.log(key);
-        }
+        // for (let key in data) {
+        //     console.log(key);
+        // }
     };
 
     return (
