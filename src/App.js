@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Nav from "./components/Nav.js";
+//import Nav from "./components/OldNav.js";
+import Nav from "./components/Nav";
 import User from "./pages/User.js";
-import Footer from "./components/Footer.js";
 
 function App() {
     document.title = "Interrogator";
@@ -15,7 +15,6 @@ function App() {
                     <Route path="/" exact component={Home} />
                     <Route path="/user" component={User} />
                 </Switch>
-                {/* <Footer /> */}
             </div>
         </Router>
     );

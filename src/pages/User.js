@@ -10,6 +10,7 @@ import getEventsCall from "../api/eventsCall";
 import BarChart from "../components/BarChart";
 import LineChart from "../components/LineChart";
 import UserCard from "../components/UserCard";
+import Footer from "../components/Footer";
 
 function User() {
     var [input, setInput] = useState("johnmarksinclair");
@@ -31,7 +32,6 @@ function User() {
         if (userData.message) {
             alert("User not found");
         } else {
-            console.log(userData);
             setInfo(userData);
             setFollowers(await getFollowersCall(input));
             let returnedRepos = await getReposCall(input);
@@ -166,6 +166,8 @@ function User() {
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </div>
     );
 }

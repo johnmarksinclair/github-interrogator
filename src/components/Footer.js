@@ -1,20 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
 import "../App.css";
 
-function Footer() {
-    return (
-        <footer class="footerCustom">
-            <div class="content has-text-centered">
+class Footer extends Component {
+    render() {
+        return (
+            <div className="my-footer">
                 <p>
                     <strong>GitHub Interrogator</strong> by{" "}
                     <a href="https://github.com/johnmarksinclair">
                         John Sinclair
                     </a>
-                    .
                 </p>
             </div>
-        </footer>
-    );
+        );
+    }
 }
 
 export default Footer;
