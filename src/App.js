@@ -26,7 +26,14 @@ function Home() {
             <section className="hero is-medium">
                 <div className="hero-body">
                     <div className="container">
-                        <h1 className="title">GitHub Interrogator</h1>
+                        <h1 className="title">
+                            <p>
+                                <strong>GitHub Interrogator</strong> by{" "}
+                                <a href="https://github.com/johnmarksinclair">
+                                    John Sinclair
+                                </a>
+                            </p>
+                        </h1>
                         <h2 className="subtitle">
                             Interrogate the GitHub API to build visualisation of
                             data available that elucidates some aspect of the
