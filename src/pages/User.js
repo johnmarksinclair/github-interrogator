@@ -12,8 +12,8 @@ import LineChart from "../components/LineChart";
 
 function User() {
     var [input, setInput] = useState("johnmarksinclair");
+    const [disInp, setDisplayInput] = useState("");
     const [repo, setRepo] = useState("");
-
     const [info, setInfo] = useState({});
     const [languages, setLangs] = useState([]);
     const [followers, setFollowers] = useState([]);
@@ -57,12 +57,14 @@ function User() {
 
     const handleInput = (e) => {
         setInput(e.target.value);
+        setDisplayInput(e.target.value);
     };
 
     const handleSearch = async () => {
         if (input !== "") {
             getData();
         }
+        setDisplayInput("");
     };
 
     const checkIfEnter = (pressedKey) => {
@@ -82,6 +84,7 @@ function User() {
                                     id="userInput"
                                     className="input is-small"
                                     type="text"
+                                    value={disInp}
                                     placeholder="Username"
                                     onChange={handleInput}
                                     onKeyPress={checkIfEnter}
