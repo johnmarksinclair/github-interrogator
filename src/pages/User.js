@@ -6,12 +6,11 @@ import getFollowersCall from "../api/followersCall";
 import getFollowingCall from "../api/followingCall";
 import getReposCall from "../api/repoCall";
 import getLangsCall from "../api/languageCall";
-import getEventsCall from "../api/eventsCall";
+//import getEventsCall from "../api/eventsCall";
 import getRateLimitCall from "../api/rateLimitCall";
 //import components
 import UserCard from "../components/UserCard";
 import Footer from "../components/Footer";
-import BarChart from "../components/BarChart";
 import LanguageChart from "../components/LanguageChart";
 import ActivityChart from "../components/ActivityChart";
 
@@ -91,7 +90,7 @@ function User() {
 
     return (
         <div className="user-div">
-            <div className="columns">
+            <div className="columns is-variable is-1">
                 <div className="column is-one-quarter">
                     <div className="shadow-div">
                         <div className="search-div">
