@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
-import lamp from "../assets/lamp.png";
 
 class Nav extends Component {
     render() {

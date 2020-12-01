@@ -17,9 +17,7 @@ class UserCard extends Component {
                         <div className="media-content">
                             <p className="title is-4">{info.name}</p>
                             <p className="subtitle is-6">{info.location}</p>
-                            <a className="subtitle is-6" href={info.html_url}>
-                                @{info.login}
-                            </a>
+                            <a href={info.html_url}>@{info.login}</a>
                         </div>
                     </div>
 

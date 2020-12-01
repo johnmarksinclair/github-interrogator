@@ -6,11 +6,13 @@ import getFollowersCall from "../api/followersCall";
 import getReposCall from "../api/repoCall";
 import getLangsCall from "../api/languageCall";
 import getEventsCall from "../api/eventsCall";
+import getRateLimitCall from "../api/rateLimitCall";
 //import components
-import BarChart from "../components/BarChart";
-import LineChart from "../components/LineChart";
 import UserCard from "../components/UserCard";
 import Footer from "../components/Footer";
+import BarChart from "../components/BarChart";
+import LanguageChart from "../components/LanguageChart";
+import ActivityChart from "../components/ActivityChart";
 
 function User() {
     var [input, setInput] = useState("johnmarksinclair");
@@ -20,7 +22,7 @@ function User() {
     const [languages, setLangs] = useState([]);
     const [followers, setFollowers] = useState([]);
     const [repos, setRepos] = useState([]);
-    const [events, setEvents] = useState([]);
+    //const [events, setEvents] = useState([]);
 
     useEffect(() => {
         getData();
@@ -37,24 +39,34 @@ function User() {
             let returnedRepos = await getReposCall(input);
             if (returnedRepos.length > 0) {
                 setRepos(returnedRepos);
-                setRepo(returnedRepos[0].name);
+                setRepo(returnedRepos[0]);
                 let langData = await getLangsCall(input, returnedRepos[0].name);
                 setLangs(langData);
             }
-            let eventsRes = await getEventsCall(input);
-            setEvents(eventsRes);
+            // let eventsRes = await getEventsCall(input);
+            // setEvents(eventsRes);
         }
+        checkReqLimit();
     }
 
-    async function updateDisplayedRepoData(repoName) {
-        if (repoName) {
-            setRepo(repoName);
+    async function updateDisplayedRepoData(repo) {
+        if (repo) {
+            setRepo(repo);
             if (repos.length > 0) {
-                var langData = await getLangsCall(input, repoName);
+                let langData = await getLangsCall(input, repo.name);
                 setLangs(langData);
             }
         }
+        console.log(repo.description);
+        checkReqLimit();
     }
+
+    const checkReqLimit = async () => {
+        let remaining = await getRateLimitCall();
+        if (remaining === 0) alert(`${remaining} API calls left`);
+        else if (remaining < 10)
+            alert(`Running low on API calls! ${remaining} calls left`);
+    };
 
     const handleInput = (e) => {
         setInput(e.target.value);
@@ -133,7 +145,7 @@ function User() {
                                     <button
                                         className="list-button"
                                         onClick={() => {
-                                            updateDisplayedRepoData(x.name);
+                                            updateDisplayedRepoData(x);
                                         }}
                                     >
                                         {x.name}
@@ -146,23 +158,15 @@ function User() {
                 </div>
 
                 <div className="tile is-parent is-vertical">
+                    <div className="tile is-child box">
+                        <p className="title">Repo: {repo.name}</p>
+                        <p>Description: {repo.description}</p>
+                    </div>
                     <div className="tile is-child box" id="lang-bar-chart-tile">
-                        <p className="title">Language Usage</p>
-                        <p className="subtitle">
-                            Repo: {repo} - Values in lines of code
-                        </p>
-                        <div className="lang-char-div">
-                            <BarChart data={languages} />
-                        </div>
-                        <div>
-                            <p>
-                                Select another repo from the list to see its
-                                info
-                            </p>
-                        </div>
+                        <LanguageChart langs={languages} />
                     </div>
                     <div className="tile is-child box">
-                        <LineChart data={events} />
+                        <ActivityChart login={input} />
                     </div>
                 </div>
             </div>

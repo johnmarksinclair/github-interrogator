@@ -6,8 +6,11 @@ GET https://api.github.com/users/johnmarksinclair/followers
 ###
 GET https://api.github.com/users/johnmarksinclair/events
 ###
+GET https://api.github.com/rate_limit
 ###
+GET https://api.github.com/users/johnmarksinclair/starred
 ###
+GET https://ghchart.rshah.org/johnmarksinclair
 ###
 GET https://api.github.com/repos/johnmarksinclair/college/languages
 // returns the languages used in a specified repo
