@@ -9,7 +9,7 @@ class ActivityChart extends Component {
             <div className="chart-div">
                 <p className="subtitle">Activity</p>
                 <div className="centered-div">
-                    <img src={chartSrc} />
+                    <img src={chartSrc} alt="User not found" />
                 </div>
             </div>
         );
