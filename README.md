@@ -5,7 +5,7 @@ Interrogate the GitHub API to build visualisation of data available tht elucidat
 
 ![](demo.gif)
 
-You can interact with GitHub Interrogator yourself [here](https://github-interrogator.herokuapp.com/)
+You can interact with GitHub Interrogator yourself [here](https://github-interrogator.herokuapp.com/)... may take some time to load initially
 
 ### Frameworks and Libraries Used:
 React, Node, D3js, Bulma
