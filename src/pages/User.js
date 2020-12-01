@@ -88,7 +88,7 @@ function User() {
 
     return (
         <div className="user-div">
-            <div className="tile is-ancestor">
+            {/* <div className="tile is-ancestor">
                 <div className="tile is-3 is-vertical is-parent">
                     <div className="tile is-12 is-child box" id="search-tile">
                         <div className="columns">
@@ -169,8 +169,97 @@ function User() {
                         <ActivityChart login={input} />
                     </div>
                 </div>
+            </div> */}
+            {/*=============================================== */}
+            <div className="columns">
+                <div className="column is-one-quarter">
+                    <div className="shadow-div">
+                        <div className="columns">
+                            <div className="column is-four-fifths">
+                                <input
+                                    id="userInput"
+                                    className="input is-small"
+                                    type="text"
+                                    value={disInp}
+                                    placeholder="Username"
+                                    onChange={handleInput}
+                                    onKeyPress={checkIfEnter}
+                                />
+                            </div>
+                            <div className="column">
+                                <button
+                                    className="button is-small"
+                                    onClick={handleSearch}
+                                >
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="vert-spacer-div"></div>
+                    <div className="shadow-div">
+                        <UserCard data={info} />
+                    </div>
+                    <div className="vert-spacer-div"></div>
+                    <div className="shadow-div">
+                        <div className="column">
+                            <p className="title">Followers</p>
+                            <div>
+                                {followers.map((follower) => (
+                                    <button
+                                        className="button is-small"
+                                        onClick={() => {
+                                            input = follower.login;
+                                            getData();
+                                        }}
+                                    >
+                                        {follower.login}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="column">
+                    <div className="shadow-div">
+                        <div className="column">
+                            <p class="title">Repos</p>
+                            <div>
+                                {repos.map((x) => (
+                                    <div key={x.name}>
+                                        <button
+                                            className="list-button"
+                                            onClick={() => {
+                                                updateDisplayedRepoData(x);
+                                            }}
+                                        >
+                                            {x.name}
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="vert-spacer-div"></div>
+                    <div className="shadow-div"></div>
+                </div>
+                <div className="column is-three-fifths">
+                    <div className="shadow-div">
+                        <div className="column">
+                            <p className="title">Repo: {repo.name}</p>
+                            <p>Description: {repo.description}</p>
+                        </div>
+                    </div>
+                    <div className="vert-spacer-div"></div>
+                    <div className="shadow-div">
+                        <LanguageChart langs={languages} />
+                    </div>
+                    <div className="vert-spacer-div"></div>
+                    <div className="shadow-div">
+                        <ActivityChart login={input} />
+                    </div>
+                </div>
             </div>
-
             <Footer />
         </div>
     );

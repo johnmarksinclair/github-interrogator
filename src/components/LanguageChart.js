@@ -5,7 +5,7 @@ import BarChart from "../components/BarChart";
 class Nav extends Component {
     render() {
         return (
-            <div>
+            <div className="chart-div">
                 <p className="title">Language Usage</p>
                 <p className="subtitle">Values in lines of code</p>
                 <BarChart data={this.props.langs} />
