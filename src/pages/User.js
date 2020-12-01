@@ -3,6 +3,7 @@ import "../App.css";
 //import api calling functions
 import getProfileInfoCall from "../api/profileCall";
 import getFollowersCall from "../api/followersCall";
+import getFollowingCall from "../api/followingCall";
 import getReposCall from "../api/repoCall";
 import getLangsCall from "../api/languageCall";
 import getEventsCall from "../api/eventsCall";
@@ -21,6 +22,7 @@ function User() {
     const [info, setInfo] = useState({});
     const [languages, setLangs] = useState([]);
     const [followers, setFollowers] = useState([]);
+    const [following, setFollowing] = useState([]);
     const [repos, setRepos] = useState([]);
     //const [events, setEvents] = useState([]);
 
@@ -36,6 +38,7 @@ function User() {
         } else {
             setInfo(userData);
             setFollowers(await getFollowersCall(input));
+            setFollowing(await getFollowingCall(input));
             let returnedRepos = await getReposCall(input);
             if (returnedRepos.length > 0) {
                 setRepos(returnedRepos);
@@ -88,112 +91,25 @@ function User() {
 
     return (
         <div className="user-div">
-            {/* <div className="tile is-ancestor">
-                <div className="tile is-3 is-vertical is-parent">
-                    <div className="tile is-12 is-child box" id="search-tile">
-                        <div className="columns">
-                            <div className="column is-three-fifths">
-                                <input
-                                    id="userInput"
-                                    className="input is-small"
-                                    type="text"
-                                    value={disInp}
-                                    placeholder="Username"
-                                    onChange={handleInput}
-                                    onKeyPress={checkIfEnter}
-                                />
-                            </div>
-                            <div className="column">
-                                <button
-                                    className="button is-small"
-                                    onClick={handleSearch}
-                                >
-                                    Search
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="tile is-child box" id="avatar-card-tile">
-                        <UserCard data={info} />
-                    </div>
-
-                    <div className="tile is-child box" id="followers-tile">
-                        <p className="title">Followers</p>
-                        <div>
-                            {followers.map((follower) => (
-                                <button
-                                    className="button is-small"
-                                    onClick={() => {
-                                        input = follower.login;
-                                        getData();
-                                    }}
-                                >
-                                    {follower.login}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="tile is-2 is-parent is-vertical">
-                    <div className="tile is-child box" id="repos-tile">
-                        <p class="title">Repos</p>
-                        <div>
-                            {repos.map((x) => (
-                                <div key={x.name}>
-                                    <button
-                                        className="list-button"
-                                        onClick={() => {
-                                            updateDisplayedRepoData(x);
-                                        }}
-                                    >
-                                        {x.name}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="tile is-child box"></div>
-                </div>
-
-                <div className="tile is-parent is-vertical">
-                    <div className="tile is-child box">
-                        <p className="title">Repo: {repo.name}</p>
-                        <p>Description: {repo.description}</p>
-                    </div>
-                    <div className="tile is-child box" id="lang-bar-chart-tile">
-                        <LanguageChart langs={languages} />
-                    </div>
-                    <div className="tile is-child box">
-                        <ActivityChart login={input} />
-                    </div>
-                </div>
-            </div> */}
-            {/*=============================================== */}
             <div className="columns">
                 <div className="column is-one-quarter">
                     <div className="shadow-div">
-                        <div className="columns">
-                            <div className="column is-four-fifths">
-                                <input
-                                    id="userInput"
-                                    className="input is-small"
-                                    type="text"
-                                    value={disInp}
-                                    placeholder="Username"
-                                    onChange={handleInput}
-                                    onKeyPress={checkIfEnter}
-                                />
-                            </div>
-                            <div className="column">
-                                <button
-                                    className="button is-small"
-                                    onClick={handleSearch}
-                                >
-                                    Search
-                                </button>
-                            </div>
+                        <div className="search-div">
+                            <input
+                                id="userInput"
+                                className="input is-small"
+                                type="text"
+                                value={disInp}
+                                placeholder="Username"
+                                onChange={handleInput}
+                                onKeyPress={checkIfEnter}
+                            />
+                            <button
+                                className="button is-small"
+                                onClick={handleSearch}
+                            >
+                                Search
+                            </button>
                         </div>
                     </div>
                     <div className="vert-spacer-div"></div>
@@ -220,7 +136,7 @@ function User() {
                         </div>
                     </div>
                 </div>
-                <div className="column">
+                <div className="column is-one-fifth">
                     <div className="shadow-div">
                         <div className="column">
                             <p class="title">Repos</p>
@@ -241,9 +157,26 @@ function User() {
                         </div>
                     </div>
                     <div className="vert-spacer-div"></div>
-                    <div className="shadow-div"></div>
+                    <div className="shadow-div">
+                        <div className="column">
+                            <p className="title">Following</p>
+                            <div>
+                                {following.map((person) => (
+                                    <button
+                                        className="button is-small"
+                                        onClick={() => {
+                                            input = person.login;
+                                            getData();
+                                        }}
+                                    >
+                                        {person.login}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="column is-three-fifths">
+                <div className="column">
                     <div className="shadow-div">
                         <div className="column">
                             <p className="title">Repo: {repo.name}</p>

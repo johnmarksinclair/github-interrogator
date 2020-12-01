@@ -46,6 +46,13 @@
     padding: 10px;
 }
 
+.search-div {
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
 .centered-div {
     justify-content: space-around;
     display: flex;
@@ -64,7 +71,7 @@
 }
 
 .chart-div {
-    background-color: yellow;
+    background-color: white;
     width: 100%;
 }
 
