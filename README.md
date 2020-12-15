@@ -8,7 +8,7 @@ Interrogate the GitHub API to build visualisation of data available tht elucidat
 You can interact with GitHub Interrogator yourself [here](https://github-interrogator.herokuapp.com/)... may take some time to load initially
 
 ### Frameworks and Libraries Used:
-React, Node, D3js, Bulma
+React, Node, Bootstrap, D3js, Bulma
 
 ## To run the app:
 Install the dependancies by running `npm install` in the terminal. Then start the local server by running 
